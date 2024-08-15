@@ -24,8 +24,9 @@ def __panel_deayuda__():
     texto  = 'HackPanel'
     fuente = 'standard'  # Usa un font simple y predeterminado
     color  = 'red'
-    banner = crear_panel_de_ayuda_banner(texto, fuente, color)
-    print(banner)
+    
+    # Mostrar el banner
+    print(crear_panel_de_ayuda_banner(texto, fuente, color))
 
     parser = argparse.ArgumentParser(
         description='↪ HELP PANEL',
@@ -47,16 +48,18 @@ def __panel_deayuda__():
 
     args = parser.parse_args()
 
-    # Mostrar el banner
-    print(crear_panel_de_ayuda_banner(texto, fuente, color))
-
     # Procesar los argumentos
     if args.scan:
         print(f'Scan: {args.scan}')
     if args.fuzzing:
         print(f'Fuzzing: URL={args.fuzzing[0]}, Diccionario={args.fuzzing[1]}')
         if args.fuzzing[0] and args.fuzzing[1]:
-            ejecutar_fuzzing(args.fuzzing[0], args.fuzzing[1])
+            try:
+                ejecutar_fuzzing(args.fuzzing[0], args.fuzzing[1])
+            except FileNotFoundError as e:
+                print(f"Error: {e}")
+            except Exception as e:
+                print(f"Error: {e}")
         else:
             print("Error: Se requieren tanto URL como diccionario para el fuzzing.")
     if args.scanWP:
@@ -71,10 +74,6 @@ def __panel_deayuda__():
         print(f'User: {args.user}')
     if args.password:
         print(f'Password: {args.password}')
-    if args.url:
-        print(f'URL: {args.url}')
-    if args.rpc:
-        print(f'RPC: {args.rpc}')
     if args.dictionary:
         print(f'Dictionary: {args.dictionary}')
     if args.ip:
