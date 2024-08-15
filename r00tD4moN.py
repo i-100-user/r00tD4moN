@@ -12,26 +12,6 @@ def crear_panel_de_ayuda_banner(texto, fuente, color):
     colored_banner = colored(banner, color)
     return colored_banner
 
-def ejecutar_scan(ip):
-    comando = ['nmap', '-sS', '-sV', '-Pn', '-p-', '-sC', '-Vv', '-vvv', '--min-rate', '5000', '-oN', 'escaneo_de_nmap{ip}.txt', ip] 
-    try:
-        _resultado_del_comnado_ = subprocess.run(comando, capture_output=True, text=True, check=True)
-        print(_resultado_del_comnado_.stdout)  
-    except subprocess.CalledProcessError as e:
-        print(f'Error al ejecutar el escaneo: {e}')
-        print(e.stderr)
-
-def ejecutar_fuzzing(url):
-    diccionario = '/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt'
-    comando = ['wfuzz', '-c', '--hc', '404', '-t', '200', '-w', diccionario, url + '/FUZZ']
-    
-    try:
-        resultado = subprocess.run(comando, capture_output=True, text=True, check=True)
-        print(resultado.stdout)  
-    except subprocess.CalledProcessError as e:
-        print(f'Error al ejecutar el fuzzing: {e}')
-        print(e.stderr)
-
 
 def __panel_deayuda__():
     texto  = 'HackPanel'
