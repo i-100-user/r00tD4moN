@@ -6,6 +6,14 @@ from termcolor import colored   # termcolor para poner colores a los textos , se
 import argparse                 # crea el penu de ayuda 
 import sys                      # Proporciona acceso a algunas variables y funciones que interactúan con el intérprete de Python y el entorno del sistema.
 import subprocess               # Permite crear nuevos procesos
+import __fuzzing__                  # Importa el módulo de fuzzing
+
+
+def ejecutar_fuzzing(url, diccionario):
+    __fuzzing__.run_fuzzing(url, diccionario)
+    
+
+
 
 def crear_panel_de_ayuda_banner(texto, fuente, color):
     banner = pyfiglet.figlet_format(texto, font=fuente)
