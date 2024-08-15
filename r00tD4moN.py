@@ -5,23 +5,24 @@ import pyfiglet                 # pyfiglet para crear el banner, se instala con 
 from termcolor import colored   # termcolor para poner colores a los textos, se instala con "pip install termcolor"
 import argparse                 # Crea el menú de ayuda 
 import sys                      # Proporciona acceso a algunas variables y funciones que interactúan con el intérprete de Python y el entorno del sistema.
-import __fuzzing__                  # Importa el módulo de fuzzing
-
+import __fuzzing__              # Importa el módulo __fuzzing__
 
 def ejecutar_fuzzing(url, diccionario):
-    # Llama a la función run_fuzzing del módulo fuzzing
+    # Llama a la función run_fuzzing del módulo __fuzzing__
     __fuzzing__.run_fuzzing(url, diccionario)
 
-
 def crear_panel_de_ayuda_banner(texto, fuente, color):
-    banner = pyfiglet.figlet_format(texto, font=fuente)
+    try:
+        banner = pyfiglet.figlet_format(texto, font=fuente)
+    except pyfiglet.FontNotFound:
+        print(f"Font '{fuente}' no encontrado. Usando font 'starwars' por defecto.")
+        banner = pyfiglet.figlet_format(texto, font='starwars')
     colored_banner = colored(banner, color)
     return colored_banner
 
-
 def __panel_deayuda__():
     texto  = 'HackPanel'
-    fuente = 'bloody'
+    fuente = 'starwars'  # Usa un font que sabemos que está disponible
     color  = 'red'
     banner = crear_panel_de_ayuda_banner(texto, fuente, color)
     print(banner)
@@ -36,7 +37,7 @@ def __panel_deayuda__():
     parser.add_argument('--scanWP',                      help='[INFO] Opción para escanear WordPress con wpscan (sin la API)')
     parser.add_argument('--sql',                         help='[INFO] Opción para ejecutar una SQL-injection con sqlmap')
     parser.add_argument('--smb',                         help='[INFO] Opción para listar archivos compartidos de SMB')
-    parser.add_argument('--url',                         help='[INFO] Opción de URL')
+    parser.add_argument('--url',                         help='[INFO] Opción de URL para el fuzzing')
     parser.add_argument('--rpc',                         help='[INFO] Opción para enumerar archivos con el protocolo RPC')
     parser.add_argument('-pb', '--password-brute-force', help='[INFO] Opción de fuerza bruta para atacar logins')
     parser.add_argument('-u', '--user',                  help='[INFO] Proporcionar credenciales de usuario compatible con diccionarios')
@@ -56,13 +57,10 @@ def __panel_deayuda__():
         print(f'Scan: {args.scan}')
     if args.fuzzing:
         print(f'Fuzzing: {args.fuzzing}')
-
         if args.url and args.dictionary:
             ejecutar_fuzzing(args.url, args.dictionary)
-
         else:
             print("Error: Se requieren tanto --url como --dictionary para el fuzzing.")
-
     if args.scanWP:
         print(f'ScanWP: {args.scanWP}')
     if args.password_brute_force:
@@ -81,7 +79,6 @@ def __panel_deayuda__():
         print(f'RPC: {args.rpc}')
     if args.dictionary:
         print(f'Dictionary: {args.dictionary}')
-
 
 if __name__ == '__main__':
     __panel_deayuda__()
