@@ -15,14 +15,14 @@ def crear_panel_de_ayuda_banner(texto, fuente, color):
     try:
         banner = pyfiglet.figlet_format(texto, font=fuente)
     except pyfiglet.FontNotFound:
-        print(f"Font '{fuente}' no encontrado. Usando font 'starwars' por defecto.")
-        banner = pyfiglet.figlet_format(texto, font='starwars')
+        print(f"Font '{fuente}' no encontrado. Usando font 'standard' por defecto.")
+        banner = pyfiglet.figlet_format(texto, font='standard')
     colored_banner = colored(banner, color)
     return colored_banner
 
 def __panel_deayuda__():
     texto  = 'HackPanel'
-    fuente = 'standard'  # Usa un font que sabemos que está disponible
+    fuente = 'standard'  # Usa un font simple y predeterminado
     color  = 'red'
     banner = crear_panel_de_ayuda_banner(texto, fuente, color)
     print(banner)
@@ -33,11 +33,10 @@ def __panel_deayuda__():
     )
 
     parser.add_argument('--scan',                        help='[INFO] Opción para un escaneo silencioso de una dirección IP con nmap')
-    parser.add_argument('--fuzzing',                     help='[INFO] Opción para hacer fuzzing web con la herramienta wfuzz')
+    parser.add_argument('--fuzzing',                     nargs=2, help='[INFO] Opción para hacer fuzzing web con la herramienta wfuzz. Requiere URL y archivo de diccionario')
     parser.add_argument('--scanWP',                      help='[INFO] Opción para escanear WordPress con wpscan (sin la API)')
     parser.add_argument('--sql',                         help='[INFO] Opción para ejecutar una SQL-injection con sqlmap')
     parser.add_argument('--smb',                         help='[INFO] Opción para listar archivos compartidos de SMB')
-    parser.add_argument('--url',                         help='[INFO] Opción de URL para el fuzzing')
     parser.add_argument('--rpc',                         help='[INFO] Opción para enumerar archivos con el protocolo RPC')
     parser.add_argument('-pb', '--password-brute-force', help='[INFO] Opción de fuerza bruta para atacar logins')
     parser.add_argument('-u', '--user',                  help='[INFO] Proporcionar credenciales de usuario compatible con diccionarios')
@@ -56,11 +55,11 @@ def __panel_deayuda__():
     if args.scan:
         print(f'Scan: {args.scan}')
     if args.fuzzing:
-        print(f'Fuzzing: {args.fuzzing}')
-        if args.url and args.dictionary:
-            ejecutar_fuzzing(args.url, args.dictionary)
+        print(f'Fuzzing: URL={args.fuzzing[0]}, Diccionario={args.fuzzing[1]}')
+        if args.fuzzing[0] and args.fuzzing[1]:
+            ejecutar_fuzzing(args.fuzzing[0], args.fuzzing[1])
         else:
-            print("Error: Se requieren tanto --url como --dictionary para el fuzzing.")
+            print("Error: Se requieren tanto URL como diccionario para el fuzzing.")
     if args.scanWP:
         print(f'ScanWP: {args.scanWP}')
     if args.password_brute_force:
