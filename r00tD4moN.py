@@ -22,7 +22,7 @@ def crear_panel_de_ayuda_banner(texto, fuente, color):
 
 def __panel_deayuda__():
     texto  = 'HackPanel'
-    fuente = 'starwars'  # Usa un font que sabemos que está disponible
+    fuente = 'standard'  # Usa un font que sabemos que está disponible
     color  = 'red'
     banner = crear_panel_de_ayuda_banner(texto, fuente, color)
     print(banner)
