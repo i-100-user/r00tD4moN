@@ -43,15 +43,14 @@ def __panel_deayuda__():
     parser.add_argument('-p', '--password',              help='[INFO] Proporcionar credenciales de contraseña compatible con diccionarios')
     parser.add_argument('-d', '--dictionary',            help='[INFO] Parámetro de diccionario')
 
-    parser.add_argument('ip', type=str, help='[INFO] Parámetro para la IP o dirección')
-
-    if len(sys.argv) == 1:
-        parser.print_help()
-        sys.exit(1)
+    parser.add_argument('ip', type=str, nargs='?', help='[INFO] Parámetro para la IP o dirección (opcional)')
 
     args = parser.parse_args()
 
-    print(f'IP: {args.ip}')
+    # Mostrar el banner
+    print(crear_panel_de_ayuda_banner(texto, fuente, color))
+
+    # Procesar los argumentos
     if args.scan:
         print(f'Scan: {args.scan}')
     if args.fuzzing:
@@ -78,6 +77,8 @@ def __panel_deayuda__():
         print(f'RPC: {args.rpc}')
     if args.dictionary:
         print(f'Dictionary: {args.dictionary}')
+    if args.ip:
+        print(f'IP: {args.ip}')
 
 if __name__ == '__main__':
     __panel_deayuda__()
